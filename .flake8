@@ -2,3 +2,6 @@
 max-line-length = 88
 extend-ignore = E203, W503, E501
 exclude = .venv, .git, __pycache__, backend/chroma_db, .trees
+per-file-ignores =
+    # app.py sets a warnings filter before its imports on purpose
+    backend/app.py: E402
