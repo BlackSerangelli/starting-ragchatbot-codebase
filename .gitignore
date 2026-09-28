@@ -29,3 +29,7 @@ uploads/
 # OS
 .DS_Store
 CLAUDE.local.md
+
+# Claude Code local files
+.claude/settings.local.json
+.playwright-mcp/
