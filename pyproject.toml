@@ -18,7 +18,9 @@ dependencies = [
 dev = [
     "black>=26.5.1",
     "flake8>=7.4.1",
+    "httpx>=0.28.1",
     "isort>=9.0.1",
+    "pytest>=9.1.1",
 ]
 
 [tool.black]
@@ -29,3 +31,9 @@ extend-exclude = "backend/chroma_db"
 [tool.isort]
 profile = "black"
 src_paths = ["backend"]
+
+[tool.pytest.ini_options]
+testpaths = ["backend/tests"]
+pythonpath = ["backend"]
+addopts = "-v --tb=short"
+filterwarnings = ["ignore::DeprecationWarning"]
