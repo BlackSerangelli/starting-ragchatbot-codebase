@@ -54,3 +54,13 @@ The application will be available at:
 - Web Interface: `http://localhost:8000`
 - API Documentation: `http://localhost:8000/docs`
 
+## Development
+
+`uv sync` also installs the dev tools (black, isort, flake8). Run these from Git Bash:
+
+```bash
+./scripts/format.sh    # sort imports and format code (isort + black)
+./scripts/lint.sh      # lint with flake8
+./scripts/quality.sh   # check-only run of all of the above; exits non-zero on failure
+```
+

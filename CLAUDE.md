@@ -16,7 +16,8 @@ cd backend && uv run uvicorn app:app --reload --port 8000   # same, manually
 - App: http://localhost:8000 — OpenAPI docs: http://localhost:8000/docs
 - The first start is slow: the embedding model is downloaded and `docs/` is embedded before uvicorn accepts connections. The page won't load until `Application startup complete` is logged.
 - The frontend is served with plain `StaticFiles`. The no-cache `DevStaticFiles` class in `app.py` is defined but never mounted, so browsers may cache old `frontend/` files after edits.
-- There is no test suite, linter, or formatter configured. `main.py` at the root is an unused placeholder.
+- Code quality (Git Bash, run from anywhere): `./scripts/format.sh` applies isort + black; `./scripts/lint.sh` runs flake8; `./scripts/quality.sh` runs all three in check-only mode and exits non-zero on failure. Config lives in `pyproject.toml` (`[tool.black]`, `[tool.isort]`, line length 88) and `.flake8` (E501 ignored; E402 allowed in `app.py`, which sets a warnings filter before importing). Run `./scripts/format.sh` before committing Python changes.
+- There is no test suite. `main.py` at the root is an unused placeholder.
 
 ## Architecture
 
