@@ -4,9 +4,10 @@ const API_URL = '/api';
 // Global state
 let currentSessionId = null;
 let currentAbortController = null;
+let themeTransitionTimeout = null;
 
 // DOM elements
-let chatMessages, chatInput, sendButton, newChatButton, totalCourses, courseTitles;
+let chatMessages, chatInput, sendButton, newChatButton, totalCourses, courseTitles, themeToggle;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
@@ -17,7 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
     newChatButton = document.getElementById('newChatButton');
     totalCourses = document.getElementById('totalCourses');
     courseTitles = document.getElementById('courseTitles');
-    
+    themeToggle = document.getElementById('themeToggle');
+
+    updateThemeToggleLabel();
     setupEventListeners();
     createNewSession();
     loadCourseStats();
@@ -34,6 +37,9 @@ function setupEventListeners() {
     // New chat
     newChatButton.addEventListener('click', startNewChat);
 
+    // Theme toggle
+    themeToggle.addEventListener('click', toggleTheme);
+
     // Suggested questions
     document.querySelectorAll('.suggested-item').forEach(button => {
         button.addEventListener('click', (e) => {
@@ -42,6 +48,37 @@ function setupEventListeners() {
             sendMessage();
         });
     });
+}
+
+
+// Theme Functions
+function getCurrentTheme() {
+    return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+}
+
+function toggleTheme() {
+    const root = document.documentElement;
+    const nextTheme = getCurrentTheme() === 'light' ? 'dark' : 'light';
+
+    // Animate colors only while switching, so other transitions are untouched
+    clearTimeout(themeTransitionTimeout);
+    root.classList.add('theme-transition');
+    root.dataset.theme = nextTheme;
+    themeTransitionTimeout = setTimeout(() => root.classList.remove('theme-transition'), 300);
+
+    try {
+        localStorage.setItem('theme', nextTheme);
+    } catch (e) {
+        // Storage unavailable (e.g. private mode); the theme just won't persist
+    }
+
+    updateThemeToggleLabel();
+}
+
+function updateThemeToggleLabel() {
+    const label = getCurrentTheme() === 'light' ? 'Switch to dark theme' : 'Switch to light theme';
+    themeToggle.setAttribute('aria-label', label);
+    themeToggle.setAttribute('title', label);
 }
 
 
